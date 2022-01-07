@@ -1,0 +1,62 @@
+
+metadata_broad-hg38-bwaidx:
+  name: broad-hg38-bwaidx
+  version: 0
+  author: Peter.Ebert
+  contact: peter.ebert@iscb.org
+  base_image: base_v0
+  labels:
+  - "homo sapiens"
+  - "hg38"
+  - "reference genome"
+  - "short-read alignment"
+  - "BWA>v0.5"
+  - "alt-aware index"
+  - "gatk dict index"
+  - "chr prefix"
+  sources:
+  -
+    provider: gcloud
+    prefix: genomics-public-data/resources/broad/hg38/v0
+    files:
+    # - 
+    #   - Homo_sapiens_assembly38.fasta
+    #   - genome.fasta
+    #   - hg38.fasta
+    - 
+      - Homo_sapiens_assembly38.fasta.fai
+      - genome.fasta.fai
+      - hg38.fasta.fai
+    -
+      - Homo_sapiens_assembly38.dict
+      - genome.dict
+      - hg38.dict
+    -
+      - Homo_sapiens_assembly38.fasta.64.alt
+      - genome.fasta.64.alt
+      - hg38.fasta.64.alt
+    -
+      - Homo_sapiens_assembly38.fasta.64.amb
+      - genome.fasta.64.amb
+      - hg38.fasta.64.amb
+    -
+      - Homo_sapiens_assembly38.fasta.64.ann
+      - genome.fasta.64.ann
+      - hg38.fasta.64.ann
+    # -
+    #   - Homo_sapiens_assembly38.fasta.64.bwt
+    #   - genome.fasta.64.bwt
+    #   - hg38.fasta.64.bwt
+    # -
+    #   - Homo_sapiens_assembly38.fasta.64.pac
+    #   - genome.fasta.64.pac
+    #   - hg38.fasta.64.pac
+    # -
+    #   - Homo_sapiens_assembly38.fasta.64.sa
+    #   - genome.fasta.64.sa
+    #   - hg38.fasta.64.sa
+  # readme: |
+  #   This is a readme text that should be parsed as-is
+  #   by the YAML parser.
+  #   Relevant documents:
+  #   what happens here
