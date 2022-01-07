@@ -19,10 +19,10 @@ metadata_broad-hg38-bwaidx:
     provider: gcloud
     prefix: genomics-public-data/resources/broad/hg38/v0
     files:
-    # - 
-    #   - Homo_sapiens_assembly38.fasta
-    #   - genome.fasta
-    #   - hg38.fasta
+    - 
+      - Homo_sapiens_assembly38.fasta
+      - genome.fasta
+      - hg38.fasta
     - 
       - Homo_sapiens_assembly38.fasta.fai
       - genome.fasta.fai
@@ -43,20 +43,15 @@ metadata_broad-hg38-bwaidx:
       - Homo_sapiens_assembly38.fasta.64.ann
       - genome.fasta.64.ann
       - hg38.fasta.64.ann
-    # -
-    #   - Homo_sapiens_assembly38.fasta.64.bwt
-    #   - genome.fasta.64.bwt
-    #   - hg38.fasta.64.bwt
-    # -
-    #   - Homo_sapiens_assembly38.fasta.64.pac
-    #   - genome.fasta.64.pac
-    #   - hg38.fasta.64.pac
-    # -
-    #   - Homo_sapiens_assembly38.fasta.64.sa
-    #   - genome.fasta.64.sa
-    #   - hg38.fasta.64.sa
-  # readme: |
-  #   This is a readme text that should be parsed as-is
-  #   by the YAML parser.
-  #   Relevant documents:
-  #   what happens here
+    -
+      - Homo_sapiens_assembly38.fasta.64.bwt
+      - genome.fasta.64.bwt
+      - hg38.fasta.64.bwt
+    -
+      - Homo_sapiens_assembly38.fasta.64.pac
+      - genome.fasta.64.pac
+      - hg38.fasta.64.pac
+    -
+      - Homo_sapiens_assembly38.fasta.64.sa
+      - genome.fasta.64.sa
+      - hg38.fasta.64.sa

@@ -1,0 +1,24 @@
+Bootstrap: library
+From: alpine:3.14
+
+%post
+    apk --no-cache update
+    apk --no-cache add bash bash-completion gzip bzip2
+    mkdir /payload
+
+%environment
+    export LC_ALL=C
+
+%labels
+    base_author Peter.Ebert
+    base_contact peter.ebert@iscb.org
+    base_version 0
+    base_image Alpine:3.14
+
+%help
+    This is a reference container that packages
+    reference data files for computational
+    analysis pipelines.
+    All relevant files are located under /payload
+    The container manifest is located at /payload/MANIFEST.tsv
+    If a readme is included, it is located at /payload/README.txt
