@@ -9,6 +9,48 @@ From: alpine:3.14
 %environment
     export LC_ALL=C
 
+%runscript
+    #!/bin/bash
+    args=("$@")
+    num_args="$#"
+
+    if [[ num_args -eq 0 ]];
+    then
+        echo "No command to run"
+        exit 1
+    elif [[ ${args[0]} == "manifest" ]];
+    then
+        cat /payload/MANIFEST.tsv
+    elif [[ ${args[0]} == "readme" ]] && [[ -f /payload/README.txt ]];
+    then
+        cat /payload/README.txt
+    elif [[ ${args[0]} == "readme" ]];
+    then
+        echo "Reference container does not include README"
+        exit 1
+    elif [[ ${args[0]} == "get" ]];
+    then
+        if [[ -z ${args[1]} ]];
+        then
+            echo "get command requires file argument"
+            exit 1
+        elif [[ -f /payload/${args[1]} ]];
+        then
+            if [[ -z ${args[2]} ]];
+            then
+                cp /payload/${args[1]} .
+            else
+                cp /payload/${args[1]} ${args[2]}
+            fi
+        else
+            echo "Not a packaged reference file: ${args[1]}"
+            exit 1
+        fi
+    else
+        echo "Unsupported command: ${args[0]}"
+        exit 1
+    fi
+
 %labels
     base_author Peter.Ebert
     base_contact peter.ebert@iscb.org
@@ -16,9 +58,15 @@ From: alpine:3.14
     base_image Alpine:3.14
 
 %help
-    This is a reference container that packages
-    reference data files for computational
-    analysis pipelines.
-    All relevant files are located under /payload
+    This is a reference container that packages reference data files
+    to be used in various computational analysis pipelines.
+
     The container manifest is located at /payload/MANIFEST.tsv
+    --- quick access manifest: ./CONTAINER.sif manifest
     If a readme is included, it is located at /payload/README.txt
+    --- quick access readme: ./CONTAINER.sif readme
+    All reference data files are located under /payload
+    --- copy to current dir: ./CONTAINER get REF_FILE_NAME
+    --- copy to path: ./CONTAINER get REF_FILE_NAME DESTINATION_PATH
+    (The path prefix /payload must be omitted from REF_FILE_NAME)
+
