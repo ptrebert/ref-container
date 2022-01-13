@@ -3,7 +3,7 @@ From: alpine:3.14
 
 %post
     apk --no-cache update
-    apk --no-cache add bash bash-completion gzip bzip2
+    apk --no-cache add bash bash-completion gzip bzip2 pigz
     mkdir /payload
 
 %environment
@@ -47,8 +47,7 @@ From: alpine:3.14
             exit 1
         fi
     else
-        echo "Unsupported command: ${args[0]}"
-        exit 1
+        exec "$@"
     fi
 
 %labels
