@@ -101,7 +101,7 @@ rule notify_user:
         info_msg += f'Please run the following build command in the "container" folder:\n'
         info_msg += f'$ cd {workflow_dir}/container\n'
         info_msg += f'$ sudo singularity build {rc_name}.sif {rc_name}/build.def\n\n'
-        info_msg += '(Restart the pipeline afterwards to check the container payload)'
+        info_msg += '(Restart the pipeline afterwards to check the container payload)\n\n'
         sys.stderr.write(info_msg)
 
 
@@ -121,20 +121,26 @@ rule verify_container_content:
         file_records = FILE_RECORDS_MAP[wildcards.rc_name_version]
         get_names = op.itemgetter(*('name', 'alias1', 'alias2'))
         file_names = set().union(*(set(get_names(fr)) for fr in file_records))
-        files_names = set(x for x in file_names if x != 'n/a')
+        file_names = set(x for x in file_names if x != 'n/a')
 
         missing_in_container = sorted(file_names - payload_files)
         if missing_in_container:
-            raise ValueError(f'The following files are not part of the reference container payload: {missing_in_container}')
+            err_msg = '\nPAYLOAD ERROR'
+            err_msg += '\nThe following files are not part of the reference container payload: '
+            err_msg += f'{missing_in_container}\n\n'
+            raise ValueError(err_msg)
 
         extra_in_container = payload_files - file_names
         # manifest must exist
         if not extra_in_container:
-            raise ValueError(f'Reference container payload does not include MANIFEST')
+            raise ValueError(f'\nERROR\nReference container payload does not include MANIFEST\n\n')
         
         extra_in_container = sorted(extra_in_container - {'MANIFEST.tsv', 'README.txt'})
         if extra_in_container:
-            raise ValueError(f'The following files are extra files missing from the reference container config: {extra_in_container}')
+            err_msg = '\nPAYLOAD ERROR'
+            err_msg += '\nThe following files are part of the payload but missing from the container config: '
+            err_msg += f'{extra_in_container}\n\n'
+            raise ValueError(err_msg)
 
         with open(output.check, 'w'):
             pass
