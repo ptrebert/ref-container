@@ -1,0 +1,66 @@
+
+metadata_broad-hg38-variation:
+  name: broad-hg38-variation
+  version: 0
+  author: Peter.Ebert
+  contact: peter.ebert@iscb.org
+  base_image: base_v0
+  labels:
+  - "homo sapiens"
+  - "hg38"
+  - "reference variation"
+  - "short-read variant calling"
+  - "chr prefix"
+  sources:
+  -
+    provider: gcloud
+    prefix: gcp-public-data--broad-references/hg38/v0
+    files:
+    - 
+      - 1000G_omni2.5.hg38.vcf.gz
+      - genotypes.vcf.gz
+      - hg38_1000G_genotypes.vcf.gz
+    - 
+      - 1000G_omni2.5.hg38.vcf.gz.tbi
+      - genotypes.vcf.gz.tbi
+      - hg38_1000G_genotypes.vcf.gz.tbi
+    -
+      - 1000G_phase1.snps.high_confidence.hg38.vcf.gz
+      - high-conf_snps.vcf.gz
+      - hg38_1000G_high-conf_snps.vcf.gz
+    -
+      - 1000G_phase1.snps.high_confidence.hg38.vcf.gz.tbi
+      - high-conf_snps.vcf.gz.tbi
+      - hg38_1000G_high-conf_snps.vcf.gz.tbi
+    -
+      - Homo_sapiens_assembly38.known_indels.vcf.gz
+      - known_indels.vcf.gz
+      - hg38_known_indels.vcf.gz
+    -
+      - Homo_sapiens_assembly38.known_indels.vcf.gz.tbi
+      - known_indels.vcf.gz.tbi
+      - hg38_known_indels.vcf.gz.tbi
+    -
+      - Mills_and_1000G_gold_standard.indels.hg38.vcf.gz
+      - gold_indels.vcf.gz
+      - hg38_Mills_1000G_gold_indels.vcf.gz
+    -
+      - Mills_and_1000G_gold_standard.indels.hg38.vcf.gz.tbi
+      - gold_indels.vcf.gz.tbi
+      - hg38_Mills_1000G_gold_indels.vcf.gz.tbi
+    -
+      - hapmap_3.3.hg38.vcf.gz
+      - variant_sites.vcf.gz
+      - hg38_hapmap_variant_sites.vcf.gz
+    -
+      - hapmap_3.3.hg38.vcf.gz.tbi
+      - variant_sites.vcf.gz.tbi
+      - hg38_hapmap_variant_sites.vcf.gz.tbi
+    -
+      - Homo_sapiens_assembly38.dbsnp138.vcf.gz
+      - dbsnp.vcf.gz
+      - hg38_dbsnp138.vcf.gz
+    -
+      - Homo_sapiens_assembly38.dbsnp138.vcf.gz.tbi
+      - dbsnp.vcf.gz.tbi
+      - hg38_dbsnp138.vcf.gz.tbi
