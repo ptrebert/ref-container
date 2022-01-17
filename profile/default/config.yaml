@@ -1,0 +1,11 @@
+cores: 4
+latency-wait: 2
+keep-going: True
+rerun-incomplete: True
+keep-incomplete: False
+use-envmodules: False
+restart-times: 1
+resources:
+  - network_io=2
+default-resources:
+  - network_io=0
