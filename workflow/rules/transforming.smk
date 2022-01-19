@@ -26,9 +26,9 @@ rule extract_gcloud_file:
 
 rule decompress_ftp_file:
     input:
-        lambda wildcards: TRANSFORM_FILE_PAIRS[('ftp', 'decompress', wildcards.filename)]
+        lambda wildcards: TRANSFORM_FILE_PAIRS[(DataProviders['ftp'], DataTransformations['decompress'], wildcards.filename)]
     output:
-        'payload/gcloud/{filename}'
+        'payload/ftp/{filename}'
     wildcard_constraints:
         filename = FILE_TRANSFORM_CONSTRAINTS.get((DataProviders['ftp'], DataTransformations['decompress']), 'no-file')
     shell:
