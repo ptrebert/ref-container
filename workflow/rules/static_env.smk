@@ -20,7 +20,8 @@ class DataTransformations(enum.Enum):
     uncompress = 2
     inflate = 2
     extract = 3
-    derive = 4
+    rename = 4
+    derive = 5
 
 
 class FileIdentifiers(enum.Enum):

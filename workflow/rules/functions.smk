@@ -165,6 +165,13 @@ def _process_transformation_spec(container_file_name, trans_spec, provider, pref
         source_cache_record = {(provider, transformation, source_file_path.name): source_file_path}
         transform_local_input = pl.Path(f'tmp_{transformation.name}/{provider.name}/{source_file_path.name}')
         transform_pair_record = {(provider, transformation, container_file_name): transform_local_input}
+    elif transformation == DataTransformations['rename']:
+        # rename does not need a tmp_ location as long as all data loading calls
+        # support an explicit "output" argument
+        assert isinstance(source_info, str)
+        source_file_path = prefix / pl.Path(source_info)
+        source_cache_record = {(provider, DataTransformations['raw'], container_file_name): source_file_path}
+        transform_pair_record = {}
     elif transformation == DataTransformations['extract']:
         if isinstance(source_info, str):
             # just archive given, member name is identical to desired output name
