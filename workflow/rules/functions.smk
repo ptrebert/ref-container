@@ -3,6 +3,7 @@ import re as re
 import pathlib as pl
 import collections as col
 import shutil as sh
+import hashlib
 
 
 def _get_container_metadata(refcon_name=None):
@@ -189,6 +190,21 @@ def _process_transformation_spec(container_file_name, trans_spec, provider, pref
         transform_pair_record = {(provider, transformation, container_file_name): transform_local_input}
         transform_pair_record_member = {(provider, transformation, container_file_name, 'member'): member_name}
         transform_pair_record.update(transform_pair_record_member)
+    elif transformation == DataTransformations['derive']:
+        output_name = f'payload/{provider.name}/{container_file_name}'
+        source_file_path = source_info['input']
+        source_cache_record = dict()  # not None!
+        rule_id = hashlib.md5((source_info['input'] + container_file_name).encode('utf-8')).hexdigest()
+        derive_spec = {
+            'input': f"payload/{provider.name}/{source_info['input']}",
+            'output': output_name,
+            'shell': source_info['shell'],
+            'conda': source_info.get('conda', None),
+            'singularity': source_info.get('singularity', None),
+            'name': container_file_name,
+            'rule_name': rule_id
+        }
+        transform_pair_record = {(provider, transformation, container_file_name): derive_spec}
     else:
         raise NotImplementedError(f'cannot handle {transformation}')
 
