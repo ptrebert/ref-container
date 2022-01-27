@@ -15,15 +15,27 @@ variables:
 import pathlib
 import pandas
 
-localrules: refcon_dump_manifest, refcon_cache_manifests
+localrules: refcon_run_dump_manifest, refcon_cache_manifests
 
 REFCON_FOLDER = pathlib.Path(config['reference_container_folder'])
 REFCON_NAMES = config['reference_container_names']
+# Snakemake interacts with Singularity containers using "exec",
+# which leads to a problem for the "refcon_run_get_file":
+# dynamically setting the Singularity container for the
+# "singularity:" keyword results in a parsing error for
+# unclear reasons. Hence, for now, force the use of
+# "singularity run" to extract data from reference containers
+# (i.e., treat them like a regular file)
+REFCON_USE_RUN = True
 
 SINGULARITY_ENV_MODULE = config.get('singularity_env_module', 'Singularity')
 
 
 def refcon_find_container(manifest_cache, ref_filename):
+
+    if not pathlib.Path(manifest_cache).is_file():
+        # could be a dry run
+        return 'No-manifest-cache-available'
 
     manifests = pandas.read_hdf(manifest_cache, 'manifests')
 
@@ -42,15 +54,34 @@ def refcon_find_container(manifest_cache, ref_filename):
     return container_path
 
 
-rule refcon_dump_manifest:
-    input:
-        sif = REFCON_FOLDER / pathlib.Path('{refcon_name}.sif')
-    output:
-        manifest = 'cache/refcon/{refcon_name}.manifest'
-    envmodules:
-        SINGULARITY_ENV_MODULE
-    shell:
-        '{input.sif} manifest > {output.manifest}'
+if REFCON_USE_RUN:
+
+    rule refcon_run_dump_manifest:
+        input:
+            sif = REFCON_FOLDER / pathlib.Path('{refcon_name}.sif')
+        output:
+            manifest = 'cache/refcon/{refcon_name}.manifest'
+        envmodules:
+            SINGULARITY_ENV_MODULE
+        #singularity:
+        #    lambda wildcards: f'{REFCON_FOLDER}/{wildcards.refcon_name}.sif'
+        shell:
+            '{input.sif} manifest > {output.manifest}'
+
+
+    rule refcon_run_get_file:
+        input:
+            cache = 'cache/refcon/refcon_manifests.cache'
+        output:
+            'references/{filename}'
+        envmodules:
+            SINGULARITY_ENV_MODULE
+        #singularity:
+        #    lambda wildcards, input: refcon_find_container(input.cache, wildcards.filename)
+        params:
+            refcon_path = lambda wildcards, input: refcon_find_container(input.cache, wildcards.filename)
+        shell:
+            '{params.refcon_path} get {wildcards.filename} {output}'
 
 
 rule refcon_cache_manifests:
@@ -71,14 +102,3 @@ rule refcon_cache_manifests:
         merged_manifests.to_hdf(output.cache, 'manifests', mode='w')
 
 
-rule refcon_get_reference_file:
-    input:
-        cache = 'cache/refcon/refcon_manifests.cache'
-    output:
-        'references/{filename}'
-    envmodules:
-        SINGULARITY_ENV_MODULE
-    params:
-        refcon_path = lambda wildcards, input: refcon_find_container(input.cache, wildcards.filename)
-    shell:
-        '{params.refcon_path} get {wildcards.filename} {output}'
