@@ -149,7 +149,9 @@ The requirements to use reference containers in Snakemake workflows are as follo
   - if you need to adapt reference files for your workflow, then you should absolutely specify a different
     folder for derived reference files, e.g. `references_derived/`, to avoid rule ambiguity
 
-If the above requirements are met, add the following code snippet at the top of your main Snakefile:
+If the above requirements are met, add the following code snippet at the top of your main Snakefile
+(assuming that you are following standard layout recommendations and your main `Snakefile` is located
+in the `workflow/` subfolder of your repository):
 
 ```python
 import pathlib
@@ -157,7 +159,7 @@ import pathlib
 refcon_module = pathlib.Path("ref-container/workflow/rules/ext_include/refcon_load.smk")
 refcon_repo_path = config.get("refcon_repo_path", None)
 if refcon_repo_path is None:
-    refcon_repo_path = pathlib.Path(workflow.basedir).parent
+    refcon_repo_path = pathlib.Path(workflow.basedir).parent.parent
 else:
     refcon_repo_path = pathlib.Path(refcon_repo_path)
     assert refcon_repo_path.is_dir()
