@@ -143,7 +143,7 @@ The requirements to use reference containers in Snakemake workflows are as follo
   - if Singularity has to be loaded as an `env module` (e.g., on HPCs), the name of the module
     can be specified by setting the option `singularity_env_module` in the Snakemake confguration
     (by default, the name is set to `Singularity`)
-- the Snakemake base environment includes the `pandas` package
+- the Snakemake base environment includes the `pandas`, `pytables` and `hdf5` packages
 - your workflow is structured to find all reference files (loaded from reference containers) in the
   folder `references/` in the Snakemake working directory
   - if you need to adapt reference files for your workflow, then you should absolutely specify a different
