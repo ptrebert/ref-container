@@ -63,13 +63,27 @@ metadata_ncbi-t2t-chm13hg002:
     files:
     -
       - GCA_020881995.1_ASM2088199v1.fasta
-      - t2t_hg002_XY.fasta
+      - t2t_hg002_XY_v1.fasta
       - decompress: GCA_020881995.1_ASM2088199v1_genomic.fna.gz
     -
       - GCA_020881995.1_ASM2088199v1.assembly-report.txt
-      - t2t_hg002_XY.assembly-report.txt
+      - t2t_hg002v1_XY_v1.assembly-report.txt
       - rename: GCA_020881995.1_ASM2088199v1_assembly_report.txt
     -
       - GCA_020881995.1_ASM2088199v1.assembly-stats.txt
-      - t2t_hg002_XY.assembly-stats.txt
+      - t2t_hg002v1_XY_v1.assembly-stats.txt
       - rename: GCA_020881995.1_ASM2088199v1_assembly_stats.txt
+  -
+    provider: local
+    files:
+    -
+      - CP086568.2.fasta
+      - t2t_hg002_X_v2.fasta
+    -
+      - CP086569.2.fasta
+      - t2t_hg002_Y_v2.fasta
+  readme: >-
+    Separate FASTA files for HG002/XY v2 had to be downloaded manually
+    from the NCBI/Genbank sequence viewer because the sequence records
+    did not yet include a correct link to the FTP location (no v2
+    of the merged assembly record as for v1)
