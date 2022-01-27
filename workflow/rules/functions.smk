@@ -310,6 +310,7 @@ def cache_container_payload():
     local_payload_cache = col.defaultdict(list)  # cache payload files per container
     local_md5_cache = col.defaultdict(list)  # cache payload/md5 files per container
     file_records = col.defaultdict(list)  # file records for manifest file
+    transform_pair_cache = dict()
 
     check_file_names = re.compile(FILE_NAME_CHARS, flags=re.IGNORECASE)
 
@@ -322,6 +323,8 @@ def cache_container_payload():
         for source in rc_md['sources']:
 
             source_file_records, source_paths, transform_pairs, source_file_identifiers = _parse_source_listing(source, check_file_names)
+            assert all(k not in transform_pair_cache for k in transform_pairs.keys())
+            transform_pair_cache.update(transform_pairs)
 
             local_duplicate_names = local_names_or_aliases.intersection(source_file_identifiers)
             if local_duplicate_names:
@@ -344,7 +347,7 @@ def cache_container_payload():
             sys.stderr.write(warn_msg)
         global_names_or_aliases = global_names_or_aliases.union(local_names_or_aliases)
 
-    return source_cache, transform_pairs, local_payload_cache, local_md5_cache, file_records
+    return source_cache, transform_pair_cache, local_payload_cache, local_md5_cache, file_records
 
 
 def build_filename_constraints(which):
