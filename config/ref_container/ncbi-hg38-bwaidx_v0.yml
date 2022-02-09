@@ -1,0 +1,87 @@
+
+metadata_ncbi-hg38-bwaidx:
+  name: ncbi-hg38-bwaidx
+  version: 0
+  author: Peter.Ebert
+  contact: peter.ebert@iscb.org
+  base_image: base_v0
+  labels:
+  - "homo sapiens"
+  - "hg38"
+  - "reference genome"
+  - "short-read alignment"
+  - "BWA>v0.5"
+  - "no alt"
+  - "gatk dict index"
+  - "chr prefix"
+  - "decoy"
+  - "GCA_000001405.15"
+  sources:
+  -
+    provider: ftp
+    prefix: ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids
+    files:
+    -
+      - GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fasta
+      - genome.fasta
+      - hg38.fasta
+      - decompress: GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.gz
+    - 
+      - GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fasta.fai
+      - genome.fasta.fai
+      - hg38.fasta.fai
+      - rename: GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.fai
+    -
+      - GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.dict
+      - genome.dict
+      - hg38.dict
+      - derive:
+          input: GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fasta
+          singularity: https://depot.galaxyproject.org/singularity/samtools:1.6--hb116620_7
+          shell: samtools dict {input} > {output}
+    -
+      - GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fasta.64.ann
+      - genome.fasta.64.ann
+      - hg38.fasta.64.ann
+      - extract:
+          archive: GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.bwa_index.tar.gz
+          member: GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.ann
+    -
+      - GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fasta.64.amb
+      - genome.fasta.64.amb
+      - hg38.fasta.64.amb
+      - extract:
+          archive: GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.bwa_index.tar.gz
+          member: GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.amb
+    -
+      - GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fasta.64.bwt
+      - genome.fasta.64.bwt
+      - hg38.fasta.64.bwt
+      - extract:
+          archive: GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.bwa_index.tar.gz
+          member: GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.bwt
+    -
+      - GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fasta.64.sa
+      - genome.fasta.64.sa
+      - hg38.fasta.64.sa
+      - extract:
+          archive: GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.bwa_index.tar.gz
+          member: GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.sa
+    -
+      - GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fasta.64.pac
+      - genome.fasta.64.pac
+      - hg38.fasta.64.pac
+      - extract:
+          archive: GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.bwa_index.tar.gz
+          member: GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.pac
+    -
+      - ncbi_analysis_set_readme.txt
+      - ncbi_readme.txt
+      - rename: README_analysis_sets.txt
+    -
+      - hg38_unmasked_cognates_of_masked_CEN_PAR.tsv
+      - hg38_masking.tsv
+      - rename: unmasked_cognates_of_masked_CEN_PAR.txt
+    -
+      - GCA_000001405.15_GRCh38_GRC_exclusions.bed
+      - hg38_errata.bed
