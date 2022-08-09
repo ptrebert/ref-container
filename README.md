@@ -1,3 +1,8 @@
+# REPOSITORY ARCHIVED
+
+This repository is in read-only mode. Active development happens in the "Core Unit Bioinformatics" organization.
+
+
 # Reference container
 
 This repository hosts a small Snakemake pipeline that enables (mostly) automatic builds of `reference containers`. 
